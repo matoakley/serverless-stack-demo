@@ -20,6 +20,7 @@ provider:
   lambdaHashingVersion: 20201221
 
   environment:
+    stripeSecretKey: ${env:STRIPE_SECRET_KEY}
     tableName: notes
 
   iam:
@@ -75,4 +76,12 @@ functions:
       - http:
           path: notes/{id}
           method: delete
+          authorizer: aws_iam
+
+  billing:
+    handler: billing.main
+    events:
+      - http:
+          path: billing
+          method: post
           authorizer: aws_iam
